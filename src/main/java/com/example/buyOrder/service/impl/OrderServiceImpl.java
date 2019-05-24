@@ -6,7 +6,11 @@ import com.example.buyOrder.repository.OrderRepository;
 import com.example.buyOrder.service.OrderService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 
 @Service
@@ -31,17 +35,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDTO getOrderByEmail(String email) {
-        OrderEntity result = orderRepository.findOne(email);
-        OrderDTO resultDTO = new OrderDTO();
-        BeanUtils.copyProperties(result,resultDTO);
-        return resultDTO;
+    public List<OrderEntity> getOrderByEmail(String email) {
+        List<OrderEntity> list  = orderRepository.findAllByEmail(email);
+        return  list;
     }
 
     @Override
-    public OrderDTO deleteOrder(String email) {
-        orderRepository.delete(email);
-        return null;
+    public void deleteOrder(String email) {
+        orderRepository.deleteByEmail(email);
     }
 
     @Override
