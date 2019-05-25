@@ -9,6 +9,7 @@ public class OrderDTO {
     private String variantId;
     private String merchantId;
     private Integer quantity;
+    private Integer price;
 
     public String getProductId() {
         return productId;
@@ -48,5 +49,13 @@ public class OrderDTO {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }

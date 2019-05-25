@@ -2,6 +2,7 @@ package com.example.buyOrder.controller;
 
 import com.example.buyOrder.entity.OrderEntity;
 import com.example.buyOrder.model.OrderDTO;
+import com.example.buyOrder.model.SuccessResponseDTO;
 import com.example.buyOrder.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,18 +18,22 @@ public class OrderController {
     OrderService orderService;
 
    @RequestMapping(method = RequestMethod.GET, value = "/getOrdersByEmail")
+
     public List<OrderEntity> getOrder(@RequestParam String email){
         return orderService.getOrderByEmail(email);
     }
 
+
+
+
     @RequestMapping(method = RequestMethod.POST, value = "/addOrder")
-    public OrderDTO addOrder(@RequestBody OrderDTO orderDTO){
+    public boolean addOrder(@RequestBody OrderDTO orderDTO,@RequestParam String token,@RequestParam String email){
         try {
-            return orderService.createOrder(orderDTO);
+            return orderService.createOrder(orderDTO,token,email);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return false;
     }
 
 
@@ -42,4 +47,13 @@ public class OrderController {
     public void deleteOrder(@RequestParam String email){
         orderService.deleteOrder(email);
     }
+
+
+    @Transactional
+    @RequestMapping(method = RequestMethod.GET, value = "/buyEverythingFromCart")
+    public SuccessResponseDTO buyEverythingFromCart(@RequestParam String email, @RequestParam String token){
+        return orderService.buyEverythingFromCart(email,token);
+    }
+
+
 }
